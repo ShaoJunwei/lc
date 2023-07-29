@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.business.mapper.ComponentInfoMapper">
+    
+    <resultMap type="ComponentInfo" id="ComponentInfoResult">
+        <result property="id"    column="id"    />
+        <result property="customerName"    column="customer_name"    />
+        <result property="componentNo"    column="component_no"    />
+        <result property="componentMaterial"    column="component_material"    />
+        <result property="componentHardness"    column="component_hardness"    />
+        <result property="componentTechnology"    column="component_technology"    />
+        <result property="holeModel"    column="hole_model"    />
+        <result property="holeDiameter"    column="hole_diameter"    />
+        <result property="holeLength"    column="hole_length"    />
+        <result property="roundness"    column="roundness"    />
+        <result property="cylindricity"    column="cylindricity"    />
+        <result property="roughness"    column="roughness"    />
+        <result property="process"    column="process"    />
+        <result property="processAllowance"    column="process_allowance"    />
+        <result property="requireTime"    column="require_time"    />
+        <result property="toolNo"    column="tool_no"    />
+        <result property="stripNo"    column="strip_no"    />
+        <result property="boningDuration"    column="boning_duration"    />
+        <result property="realRoundness"    column="real_roundness"    />
+        <result property="realCylindricity"    column="real_cylindricity"    />
+        <result property="realRoughness"    column="real_roughness"    />
+        <result property="equipmentNo"    column="equipment_no"    />
+        <result property="operator"    column="operator"    />
+        <result property="operateTime"    column="operate_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createUser"    column="create_user"    />
+    </resultMap>
+
+    <sql id="selectComponentInfoVo">
+        select id, customer_name, component_no, component_material, component_hardness, component_technology, hole_model, hole_diameter, hole_length, roundness, cylindricity, roughness, process, process_allowance, require_time, tool_no, strip_no, boning_duration, real_roundness, real_cylindricity, real_roughness, equipment_no, operator, operate_time, create_time, create_user from component_info
+    </sql>
+
+    <select id="selectComponentInfoList" parameterType="ComponentInfo" resultMap="ComponentInfoResult">
+        <include refid="selectComponentInfoVo"/>
+        <where>  
+            <if test="customerName != null  and customerName != ''"> and customer_name like concat('%', #{customerName}, '%')</if>
+            <if test="componentNo != null  and componentNo != ''"> and component_no = #{componentNo}</if>
+            <if test="componentMaterial != null  and componentMaterial != ''"> and component_material = #{componentMaterial}</if>
+            <if test="componentHardness != null  and componentHardness != ''"> and component_hardness = #{componentHardness}</if>
+            <if test="componentTechnology != null  and componentTechnology != ''"> and component_technology = #{componentTechnology}</if>
+            <if test="holeModel != null  and holeModel != ''"> and hole_model = #{holeModel}</if>
+            <if test="holeDiameter != null  and holeDiameter != ''"> and hole_diameter = #{holeDiameter}</if>
+            <if test="holeLength != null  and holeLength != ''"> and hole_length = #{holeLength}</if>
+            <if test="roundness != null  and roundness != ''"> and roundness = #{roundness}</if>
+            <if test="cylindricity != null  and cylindricity != ''"> and cylindricity = #{cylindricity}</if>
+            <if test="roughness != null  and roughness != ''"> and roughness = #{roughness}</if>
+            <if test="process != null  and process != ''"> and process = #{process}</if>
+            <if test="processAllowance != null  and processAllowance != ''"> and process_allowance = #{processAllowance}</if>
+            <if test="requireTime != null  and requireTime != ''"> and require_time = #{requireTime}</if>
+            <if test="toolNo != null  and toolNo != ''"> and tool_no = #{toolNo}</if>
+            <if test="stripNo != null  and stripNo != ''"> and strip_no = #{stripNo}</if>
+            <if test="boningDuration != null  and boningDuration != ''"> and boning_duration = #{boningDuration}</if>
+            <if test="realRoundness != null  and realRoundness != ''"> and real_roundness = #{realRoundness}</if>
+            <if test="realCylindricity != null  and realCylindricity != ''"> and real_cylindricity = #{realCylindricity}</if>
+            <if test="realRoughness != null  and realRoughness != ''"> and real_roughness = #{realRoughness}</if>
+            <if test="equipmentNo != null  and equipmentNo != ''"> and equipment_no = #{equipmentNo}</if>
+            <if test="operator != null  and operator != ''"> and operator = #{operator}</if>
+            <if test="operateTime != null "> and operate_time = #{operateTime}</if>
+            <if test="createUser != null  and createUser != ''"> and create_user = #{createUser}</if>
+        </where>
+    </select>
+    
+    <select id="selectComponentInfoById" parameterType="Long" resultMap="ComponentInfoResult">
+        <include refid="selectComponentInfoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertComponentInfo" parameterType="ComponentInfo">
+        insert into component_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="customerName != null">customer_name,</if>
+            <if test="componentNo != null">component_no,</if>
+            <if test="componentMaterial != null">component_material,</if>
+            <if test="componentHardness != null">component_hardness,</if>
+            <if test="componentTechnology != null">component_technology,</if>
+            <if test="holeModel != null">hole_model,</if>
+            <if test="holeDiameter != null">hole_diameter,</if>
+            <if test="holeLength != null">hole_length,</if>
+            <if test="roundness != null">roundness,</if>
+            <if test="cylindricity != null">cylindricity,</if>
+            <if test="roughness != null">roughness,</if>
+            <if test="process != null">process,</if>
+            <if test="processAllowance != null">process_allowance,</if>
+            <if test="requireTime != null">require_time,</if>
+            <if test="toolNo != null">tool_no,</if>
+            <if test="stripNo != null">strip_no,</if>
+            <if test="boningDuration != null">boning_duration,</if>
+            <if test="realRoundness != null">real_roundness,</if>
+            <if test="realCylindricity != null">real_cylindricity,</if>
+            <if test="realRoughness != null">real_roughness,</if>
+            <if test="equipmentNo != null">equipment_no,</if>
+            <if test="operator != null">operator,</if>
+            <if test="operateTime != null">operate_time,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createUser != null">create_user,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="customerName != null">#{customerName},</if>
+            <if test="componentNo != null">#{componentNo},</if>
+            <if test="componentMaterial != null">#{componentMaterial},</if>
+            <if test="componentHardness != null">#{componentHardness},</if>
+            <if test="componentTechnology != null">#{componentTechnology},</if>
+            <if test="holeModel != null">#{holeModel},</if>
+            <if test="holeDiameter != null">#{holeDiameter},</if>
+            <if test="holeLength != null">#{holeLength},</if>
+            <if test="roundness != null">#{roundness},</if>
+            <if test="cylindricity != null">#{cylindricity},</if>
+            <if test="roughness != null">#{roughness},</if>
+            <if test="process != null">#{process},</if>
+            <if test="processAllowance != null">#{processAllowance},</if>
+            <if test="requireTime != null">#{requireTime},</if>
+            <if test="toolNo != null">#{toolNo},</if>
+            <if test="stripNo != null">#{stripNo},</if>
+            <if test="boningDuration != null">#{boningDuration},</if>
+            <if test="realRoundness != null">#{realRoundness},</if>
+            <if test="realCylindricity != null">#{realCylindricity},</if>
+            <if test="realRoughness != null">#{realRoughness},</if>
+            <if test="equipmentNo != null">#{equipmentNo},</if>
+            <if test="operator != null">#{operator},</if>
+            <if test="operateTime != null">#{operateTime},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createUser != null">#{createUser},</if>
+         </trim>
+    </insert>
+
+    <update id="updateComponentInfo" parameterType="ComponentInfo">
+        update component_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="customerName != null">customer_name = #{customerName},</if>
+            <if test="componentNo != null">component_no = #{componentNo},</if>
+            <if test="componentMaterial != null">component_material = #{componentMaterial},</if>
+            <if test="componentHardness != null">component_hardness = #{componentHardness},</if>
+            <if test="componentTechnology != null">component_technology = #{componentTechnology},</if>
+            <if test="holeModel != null">hole_model = #{holeModel},</if>
+            <if test="holeDiameter != null">hole_diameter = #{holeDiameter},</if>
+            <if test="holeLength != null">hole_length = #{holeLength},</if>
+            <if test="roundness != null">roundness = #{roundness},</if>
+            <if test="cylindricity != null">cylindricity = #{cylindricity},</if>
+            <if test="roughness != null">roughness = #{roughness},</if>
+            <if test="process != null">process = #{process},</if>
+            <if test="processAllowance != null">process_allowance = #{processAllowance},</if>
+            <if test="requireTime != null">require_time = #{requireTime},</if>
+            <if test="toolNo != null">tool_no = #{toolNo},</if>
+            <if test="stripNo != null">strip_no = #{stripNo},</if>
+            <if test="boningDuration != null">boning_duration = #{boningDuration},</if>
+            <if test="realRoundness != null">real_roundness = #{realRoundness},</if>
+            <if test="realCylindricity != null">real_cylindricity = #{realCylindricity},</if>
+            <if test="realRoughness != null">real_roughness = #{realRoughness},</if>
+            <if test="equipmentNo != null">equipment_no = #{equipmentNo},</if>
+            <if test="operator != null">operator = #{operator},</if>
+            <if test="operateTime != null">operate_time = #{operateTime},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createUser != null">create_user = #{createUser},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteComponentInfoById" parameterType="Long">
+        delete from component_info where id = #{id}
+    </delete>
+
+    <delete id="deleteComponentInfoByIds" parameterType="String">
+        delete from component_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

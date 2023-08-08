@@ -7,6 +7,8 @@ import { tansParams, blobValidate } from "@/utils/ruoyi";
 import cache from '@/plugins/cache'
 import { saveAs } from 'file-saver'
 
+const baseURL = process.env.VUE_APP_BASE_API
+
 let downloadLoadingInstance;
 // 是否显示重新登录
 export let isRelogin = { show: false };
@@ -118,6 +120,19 @@ service.interceptors.response.use(res => {
 
 // 通用下载方法
 export function download(url, params, filename, config) {
+  if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+    // 当前设备是移动设备
+    downloadByMobile(url + 'ByMobile', params, filename, config)
+  } else {
+    // 当前设备是PC设备
+    downloadByMobile(url + 'ByMobile', params, filename, config)
+    //downloadByPC(url, params, filename, config)
+  }
+}
+
+
+// 通用PC端下载方法
+export function downloadByPC(url, params, filename, config) {
   downloadLoadingInstance = Loading.service({ text: "正在下载数据，请稍候", spinner: "el-icon-loading", background: "rgba(0, 0, 0, 0.7)", })
   return service.post(url, params, {
     transformRequest: [(params) => { return tansParams(params) }],
@@ -135,6 +150,29 @@ export function download(url, params, filename, config) {
       const errMsg = errorCode[rspObj.code] || rspObj.msg || errorCode['default']
       Message.error(errMsg);
     }
+    downloadLoadingInstance.close();
+  }).catch((r) => {
+    console.error(r)
+    Message.error('下载文件出现错误，请联系管理员！')
+    downloadLoadingInstance.close();
+  })
+}
+
+
+// 通用移动端下载方法
+export function downloadByMobile(url, params, filename, config) {
+  downloadLoadingInstance = Loading.service({ text: "正在下载数据，请稍候", spinner: "el-icon-loading", background: "rgba(0, 0, 0, 0.7)", })
+  return service.post(url, params, {
+    transformRequest: [(params) => { return tansParams(params) }],
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    ...config
+  }).then(async (res) => {
+    let url = baseURL + "profile/download/" + res.msg
+    let link = document.createElement('a')
+    link.href =  encodeURI(url)
+    link.click()
+    //释放内存
+    window.URL.revokeObjectURL(link.href)
     downloadLoadingInstance.close();
   }).catch((r) => {
     console.error(r)

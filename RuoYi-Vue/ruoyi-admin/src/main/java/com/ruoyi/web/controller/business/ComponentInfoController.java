@@ -1,6 +1,7 @@
 package com.ruoyi.web.controller.business;
 
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,20 @@ public class ComponentInfoController extends BaseController
         List<ComponentInfo> list = componentInfoService.selectComponentInfoList(componentInfo);
         ExcelUtil<ComponentInfo> util = new ExcelUtil<ComponentInfo>(ComponentInfo.class);
         util.exportExcel(response, list, "零件信息数据");
+    }
+
+    /**
+     * 导出零件信息列表
+     */
+    @PreAuthorize("@ss.hasPermi('business:component:export')")
+    @Log(title = "零件信息", businessType = BusinessType.EXPORT)
+    @PostMapping("/exportByMobile")
+    public AjaxResult exportByMobile(HttpServletRequest request, ComponentInfo componentInfo)
+    {
+       String path = request.getContextPath();
+        List<ComponentInfo> list = componentInfoService.selectComponentInfoList(componentInfo);
+        ExcelUtil<ComponentInfo> util = new ExcelUtil<ComponentInfo>(ComponentInfo.class);
+        return util.exportExcel(list, "零件信息数据");
     }
 
     /**
